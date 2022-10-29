@@ -1,16 +1,34 @@
 package cmcaviar.models;
 
+
+import javax.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Entity
+@Component
+@Table(name = "users")
 public class User {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "name")
     private String name;
-    public User() {
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "age")
+    private int age;
+
+    @Autowired
+    public User() {
     }
 
-    public User(int id, String name) {
-        this.id = id;
+    public User(String name, String email, int age) {
         this.name = name;
+        this.email = email;
+        this.age = age;
     }
 
     public int getId() {
@@ -27,5 +45,21 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
