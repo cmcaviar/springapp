@@ -5,7 +5,10 @@ import cmcaviar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
+
 @RequestMapping("/users")
 @Controller
 public class UsersController {
@@ -34,7 +37,11 @@ public class UsersController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("user") User user) {
+    public String create(@ModelAttribute("user") @Valid User user,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "users/new";
+        }
         userService.save(user);
         return "redirect:/users";
     }
@@ -46,7 +53,11 @@ public class UsersController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("user") @Valid User user,
+                         BindingResult bindingResult, @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "users/edit";
+        }
         userService.update(id, user);
         return "redirect:/users";
     }

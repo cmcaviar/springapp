@@ -2,6 +2,10 @@ package cmcaviar.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +17,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
+    @NotEmpty(message = "Required field")
+    @Size(min = 2, max = 25, message = "Too short or too long")
     private String name;
 
     @Column(name = "email")
+    @Email(message = "invalid email address")
+    @NotEmpty(message = "Required field")
     private String email;
 
     @Column(name = "age")
+    @Min(value = 0, message = "mr. Button..?")
     private int age;
 
     @Autowired
